@@ -1,0 +1,27 @@
+{
+  "name": "WZRefresh",
+  "version": "0.1.6",
+  "summary": "A short description of WZRefresh.",
+  "description": "TODO: Add long description of the pod here.",
+  "homepage": "https://gitlab.com/WZiOS/WZRefresh",
+  "license": {
+    "type": "MIT",
+    "file": "LICENSE"
+  },
+  "authors": {
+    "ppqx": "739140860@qq.com"
+  },
+  "source": {
+    "git": "https://gitlab.com/WZiOS/WZRefresh.git",
+    "tag": "0.1.6"
+  },
+  "platforms": {
+    "ios": "8.0"
+  },
+  "source_files": "WZRefresh/Classes/*.swift",
+  "dependencies": {
+    "MJRefresh": [
+      "~> 3.1.12"
+    ]
+  }
+}

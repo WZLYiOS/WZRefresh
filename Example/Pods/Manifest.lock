@@ -1,0 +1,24 @@
+PODS:
+  - MJRefresh (3.1.17)
+  - WZRefresh (0.1.0):
+    - MJRefresh (~> 3.1.12)
+
+DEPENDENCIES:
+  - MJRefresh (~> 3.1.12)
+  - WZRefresh (from `../`)
+
+SPEC REPOS:
+  trunk:
+    - MJRefresh
+
+EXTERNAL SOURCES:
+  WZRefresh:
+    :path: "../"
+
+SPEC CHECKSUMS:
+  MJRefresh: ee5b68f639775462faba4db0fd243baf4d42c2cf
+  WZRefresh: 31eb7002338f786f61a027ed95db4176eb9493ad
+
+PODFILE CHECKSUM: fed418dfd1201548ae6ee2bfb29200f525cca0a5
+
+COCOAPODS: 1.9.1

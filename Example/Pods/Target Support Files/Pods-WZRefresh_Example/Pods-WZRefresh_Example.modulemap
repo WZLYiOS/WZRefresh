@@ -1,0 +1,6 @@
+framework module Pods_WZRefresh_Example {
+  umbrella header "Pods-WZRefresh_Example-umbrella.h"
+
+  export *
+  module * { export * }
+}

@@ -1,0 +1,18 @@
+
+source 'https://github.com/CocoaPods/Specs.git'
+source 'https://gitlab.com/WZiOS/WZiOSPodSpecs.git'
+
+platform :ios,'8.0'
+use_frameworks!
+
+target 'WZRefresh_Example' do
+  pod 'WZRefresh', :path => '../'
+
+  pod 'MJRefresh',                '~> 3.1.12'
+  pod 'WZEmptyView', '~> 1.0.0' #空数据视图占位符
+  target 'WZRefresh_Tests' do
+    inherit! :search_paths
+
+    
+  end
+end

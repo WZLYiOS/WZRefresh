@@ -1,0 +1,6 @@
+framework module Pods_WZRefresh_Tests {
+  umbrella header "Pods-WZRefresh_Tests-umbrella.h"
+
+  export *
+  module * { export * }
+}
