@@ -20,8 +20,8 @@ class ViewController: UIViewController {
         $0.dataSource = self
         $0.delegate = self
         $0.register(UITableViewCell.self, forCellReuseIdentifier: "UITableViewCell")
-        $0.wz_addBackgroundEmpty(view: self.xxxx)
-        $0.wz_pullToRefresh(target: self, refreshingAction: #selector(pullToRefresh))
+        $0.wz.addBackgroundEmpty(view: self.xxxx)
+        $0.wz.pullToRefresh(target: self, refreshingAction: #selector(pullToRefresh))
         
         return $0
     }(UITableView())
@@ -42,7 +42,7 @@ class ViewController: UIViewController {
         // Do any additional setup after loading the view, typically from a nib.
         view.addSubview(tableView)
         tableView.frame = view.bounds
-        tableView.wz_beginRefreshing()
+        tableView.wz.beginRefreshing()
     }
 
     override func didReceiveMemoryWarning() {
@@ -51,7 +51,7 @@ class ViewController: UIViewController {
     }
 
     @objc func pullToRefresh(){
-        tableView.wz_endRefreshing()
+        tableView.wz.endRefreshing()
         dataArray = ["",""]
     }
 }

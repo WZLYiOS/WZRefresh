@@ -1,9 +1,9 @@
 ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES
-FRAMEWORK_SEARCH_PATHS = $(inherited) "${PODS_CONFIGURATION_BUILD_DIR}/MJRefresh" "${PODS_CONFIGURATION_BUILD_DIR}/WZRefresh"
+FRAMEWORK_SEARCH_PATHS = $(inherited) "${PODS_CONFIGURATION_BUILD_DIR}/MJRefresh" "${PODS_CONFIGURATION_BUILD_DIR}/WZEmptyView" "${PODS_CONFIGURATION_BUILD_DIR}/WZNamespaceWrappable" "${PODS_CONFIGURATION_BUILD_DIR}/WZRefresh"
 GCC_PREPROCESSOR_DEFINITIONS = $(inherited) COCOAPODS=1
-HEADER_SEARCH_PATHS = $(inherited) "${PODS_CONFIGURATION_BUILD_DIR}/MJRefresh/MJRefresh.framework/Headers" "${PODS_CONFIGURATION_BUILD_DIR}/WZRefresh/WZRefresh.framework/Headers"
+HEADER_SEARCH_PATHS = $(inherited) "${PODS_CONFIGURATION_BUILD_DIR}/MJRefresh/MJRefresh.framework/Headers" "${PODS_CONFIGURATION_BUILD_DIR}/WZEmptyView/WZEmptyView.framework/Headers" "${PODS_CONFIGURATION_BUILD_DIR}/WZNamespaceWrappable/WZNamespaceWrappable.framework/Headers" "${PODS_CONFIGURATION_BUILD_DIR}/WZRefresh/WZRefresh.framework/Headers"
 LD_RUNPATH_SEARCH_PATHS = $(inherited) '@executable_path/Frameworks' '@loader_path/Frameworks'
-OTHER_LDFLAGS = $(inherited) -framework "MJRefresh" -framework "WZRefresh"
+OTHER_LDFLAGS = $(inherited) -ObjC -framework "MJRefresh" -framework "WZEmptyView" -framework "WZNamespaceWrappable" -framework "WZRefresh"
 OTHER_SWIFT_FLAGS = $(inherited) -D COCOAPODS
 PODS_BUILD_DIR = ${BUILD_DIR}
 PODS_CONFIGURATION_BUILD_DIR = ${PODS_BUILD_DIR}/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)

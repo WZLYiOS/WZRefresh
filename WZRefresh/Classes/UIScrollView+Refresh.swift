@@ -9,9 +9,23 @@
 import UIKit
 import MJRefresh
 import Foundation
+import WZNamespaceWrappable
+
+/// MARK: - 底部刷新状态
+public enum WZBottomRefreshState: Int {
+    case normal
+    case noMoreData
+    case hidden
+}
+
+/// MARK: - 顶部刷新状态
+public enum WZHeadRefreshState: Int {
+    case normal
+    case hidden
+}
 
 /// MARK - 刷新协议
-public protocol Refresh {
+public protocol WZRefresh {
     
     /// 刷新视图
     var refreshView: MJRefreshComponent { get }
@@ -27,7 +41,7 @@ public protocol Refresh {
 }
 
 /// MARK - 默认实现
-public extension Refresh {
+public extension WZRefresh {
     
     /// 刷新block
     /// - Parameter handler: handler description
@@ -47,7 +61,7 @@ public extension Refresh {
 
 
 /// MARK - 默认头部刷新
-public class DefaultRefreshHeader: Refresh {
+public class WZDefaultRefreshHeader: WZRefresh {
 
     public lazy var refreshView: MJRefreshComponent = {
         let temElement = MJRefreshNormalHeader()
@@ -58,78 +72,65 @@ public class DefaultRefreshHeader: Refresh {
 
 
 /// MARK - 默认底部自动刷新
-public class DefaultRefreshAutoFooter: Refresh {
+public class WZDefaultRefreshAutoFooter: WZRefresh {
     
     public lazy var refreshView: MJRefreshComponent = {
         let temElement = MJRefreshAutoStateFooter()
         temElement.setTitle("没有更多数据", for: MJRefreshState.noMoreData)
         temElement.triggerAutomaticallyRefreshPercent = -UIScreen.main.bounds.height/2.0/44.0
-        temElement.isOnlyRefreshPerDrag = false
         return temElement
     }()
 }
 
 // MARK: - UIScrollView + 刷新的扩展
-@objc public extension UIScrollView {
-    
-    /// MARK: - 底部刷新状态
-    @objc enum BottomRefreshState: Int {
-        case normal
-        case noMoreData
-        case hidden
-    }
-
-    /// MARK: - 顶部刷新状态
-    @objc enum HeadRefreshState: Int {
-        case normal
-        case hidden
-    }
+public extension WZTypeWrapperProtocol where WrappedType: UIScrollView {
     
     /// 开始刷新
-   @objc func wz_beginRefreshing() {
-        self.mj_header.beginRefreshing()
+    func beginRefreshing() {
+        wrappedValue.mj_header?.beginRefreshing()
     }
     
     /// 停止刷新
-   @objc func wz_endRefreshing() {
+    func endRefreshing() {
         
-        if (self.mj_header != nil) && self.mj_header.isRefreshing {
-           self.mj_header.endRefreshing()
+        /// 头部停止刷新
+        if let header = wrappedValue.mj_header, header.isRefreshing == true {
+            header.endRefreshing()
         }
-        
-        if (self.mj_footer != nil) && self.mj_footer.isRefreshing {
-            self.mj_footer.endRefreshing()
+    
+        if let foot = wrappedValue.mj_footer, foot.isRefreshing == true {
+            foot.endRefreshing()
         }
     }
      
     /// 移除顶部刷新控件
-   @objc func wz_removeHeadRefreshing() {
-        self.mj_header = nil
+    func removeHeadRefreshing() {
+        wrappedValue.mj_header = nil
     }
     
     /// 刷新顶部视图状态
     /// - Parameter state: 顶部视图状态
-   @objc func wz_headRefreshState(state: HeadRefreshState) {
+   func headRefreshState(state: WZHeadRefreshState) {
        switch state {
         case .hidden:
-            self.mj_header.isHidden = true
+            wrappedValue.mj_header?.isHidden = true
         case .normal:
-            self.mj_header.isHidden = false
+            wrappedValue.mj_header?.isHidden = false
         }
     }
     
     /// 底部刷新状态
     /// - Parameter state: 状态
-    @objc func wz_bottomRefreshState(state: BottomRefreshState) {
+    func bottomRefreshState(state: WZBottomRefreshState) {
         switch state {
         case .hidden:
-            self.mj_footer.isHidden = true
+            wrappedValue.mj_footer?.isHidden = true
         case .noMoreData:
-            self.mj_footer.isHidden = false
-            self.mj_footer.endRefreshingWithNoMoreData()
+            wrappedValue.mj_footer?.isHidden = false
+            wrappedValue.mj_footer?.endRefreshingWithNoMoreData()
         case .normal:
-            self.mj_footer.isHidden = false
-            self.mj_footer.resetNoMoreData()
+            wrappedValue.mj_footer?.isHidden = false
+            wrappedValue.mj_footer?.resetNoMoreData()
         }
     }
     
@@ -137,19 +138,19 @@ public class DefaultRefreshAutoFooter: Refresh {
     /// 下拉刷新
     /// - Parameter header: 头部刷新
     /// - Parameter handler: handler description
-   @objc func wz_pullToRefresh(target: Any, refreshingAction action: Selector) {
+    func pullToRefresh(target: Any, refreshingAction action: Selector) {
         
-        let header = DefaultRefreshHeader()
+        let header = WZDefaultRefreshHeader()
         header.refreshingTarget(target, refreshingAction: action)
-        self.mj_header = (header.refreshView as! MJRefreshHeader)
+        wrappedValue.mj_header = (header.refreshView as! MJRefreshHeader)
     }
     
     /// 下拉刷新
     /// - Parameter handler: handler description
-   @objc func wz_pullToRefresh(handler: @escaping () -> Void) {
+    func pullToRefresh(handler: @escaping () -> Void) {
         
-        let header = DefaultRefreshHeader()
-        self.mj_header = (header.refreshView as! MJRefreshHeader)
+        let header = WZDefaultRefreshHeader()
+        wrappedValue.mj_header = (header.refreshView as! MJRefreshHeader)
         header.refreshingBlock(handler: handler)
     }
     
@@ -157,37 +158,36 @@ public class DefaultRefreshAutoFooter: Refresh {
     /// 加载更多
     /// - Parameter target: target description
     /// - Parameter action: action description
-   @objc func wz_loadMoreFooter(target: Any, refreshingAction action: Selector) {
+    func loadMoreFooter(target: Any, refreshingAction action: Selector) {
         
-        let footer = DefaultRefreshAutoFooter()
+        let footer = WZDefaultRefreshAutoFooter()
         footer.refreshingTarget(target, refreshingAction: action)
-        self.mj_footer = (footer.refreshView as! MJRefreshFooter)
+        wrappedValue.mj_footer = (footer.refreshView as! MJRefreshFooter)
     }
     
     /// 加载更多
     /// - Parameter handler: handler description
-   @objc func wz_loadMoreFooter(handler: @escaping () -> Void) {
+    func loadMoreFooter(handler: @escaping () -> Void) {
         
-        let footer = DefaultRefreshAutoFooter()
-        self.mj_footer = (footer.refreshView as! MJRefreshFooter)
+        let footer = WZDefaultRefreshAutoFooter()
+        wrappedValue.mj_footer = (footer.refreshView as! MJRefreshFooter)
         footer.refreshingBlock(handler: handler)
     }
     
     /// 添加背景空视图
     /// - Parameter view: 空视图
-    @objc func wz_addBackgroundEmpty(view: UIView) {
-        self.wzEmptyView = view
-        self.wzObservation = self.observe(\.contentSize, options: .new) { scrollView, change in
+    func addBackgroundEmpty(view: UIView) {
+        wrappedValue.wzEmptyView = view
+        wrappedValue.wzObservation = wrappedValue.observe(\.contentSize, options: .new) { scrollView, change in
             
-            scrollView.refreshFootState()
-            
+            refreshFootState()
             if let tab = scrollView as? UITableView {
-                tab.backgroundView = self.mj_totalDataCount() == 0 ? scrollView.wzEmptyView : nil
+                tab.backgroundView = wrappedValue.mj_totalDataCount() == 0 ? scrollView.wzEmptyView : nil
                 return
             }
             
             if let coll = scrollView as? UICollectionView {
-                coll.backgroundView = self.mj_totalDataCount() == 0 ? scrollView.wzEmptyView : nil
+                coll.backgroundView = wrappedValue.mj_totalDataCount() == 0 ? scrollView.wzEmptyView : nil
                 return
             }
         }
@@ -195,38 +195,38 @@ public class DefaultRefreshAutoFooter: Refresh {
     
     /// footView 添加占位图
     /// - Parameter view: 空视图
-    @objc func wz_addFootEmpty(view: UIView){
-        self.wzEmptyView = view
-        self.mj_header.endRefreshingCompletionBlock = {
-            if let tab = self as? UITableView {
-                tab.tableFooterView = self.mj_totalDataCount() == 0 ? self.wzEmptyView : nil
+    func addFootEmpty(view: UIView){
+        wrappedValue.wzEmptyView = view
+        wrappedValue.mj_header?.endRefreshingCompletionBlock = {
+            if let tab = wrappedValue as? UITableView {
+                tab.tableFooterView = wrappedValue.mj_totalDataCount() == 0 ? wrappedValue.wzEmptyView : nil
             }
         }
-        self.wzObservation = self.observe(\.contentSize, options: .new) { scrollView, change in
-            scrollView.refreshFootState()
+        wrappedValue.wzObservation = wrappedValue.observe(\.contentSize, options: .new) { scrollView, change in
+            refreshFootState()
         }
     }
     
     /// 下拉刷新 针对tableview 和 collectionview  背景view自动添加空视图 将要废弃
     /// - Parameter header: 头部刷新
     /// - Parameter handler: handler description
-    @objc func wz_refreshHeaderBackgroundView(target: Any, refreshingAction action: Selector) {
+    func refreshHeaderBackgroundView(target: Any, refreshingAction action: Selector) {
         
-        let header = DefaultRefreshHeader()
+        let header = WZDefaultRefreshHeader()
         header.refreshingTarget(target, refreshingAction: action)
-        self.mj_header = (header.refreshView as! MJRefreshHeader)
+        wrappedValue.mj_header = (header.refreshView as! MJRefreshHeader)
       
-        self.wzObservation = self.observe(\.contentSize, options: .new) { scrollView, change in
+        wrappedValue.wzObservation = wrappedValue.observe(\.contentSize, options: .new) { scrollView, change in
             
-            scrollView.refreshFootState()
+            refreshFootState()
             
             if let tab = scrollView as? UITableView {
-                tab.backgroundView = self.mj_totalDataCount() == 0 ? scrollView.wzEmptyView : nil
+                tab.backgroundView = wrappedValue.mj_totalDataCount() == 0 ? scrollView.wzEmptyView : nil
                 return
             }
             
             if let coll = scrollView as? UICollectionView {
-                coll.backgroundView = self.mj_totalDataCount() == 0 ? scrollView.wzEmptyView : nil
+                coll.backgroundView = wrappedValue.mj_totalDataCount() == 0 ? scrollView.wzEmptyView : nil
                 return
             }
         }
@@ -235,32 +235,32 @@ public class DefaultRefreshAutoFooter: Refresh {
     /// 下拉刷新 针对tableview 和 collectionview  FootView自动添加空视图
     /// - Parameter header: 头部刷新
     /// - Parameter handler: handler description
-    @objc func wz_refreshHeaderTableFooterView(target: Any, refreshingAction action: Selector) {
+     func refreshHeaderTableFooterView(target: Any, refreshingAction action: Selector) {
     
-        let header = DefaultRefreshHeader()
+        let header = WZDefaultRefreshHeader()
         header.refreshingTarget(target, refreshingAction: action)
-        self.mj_header = (header.refreshView as! MJRefreshHeader)
-        self.mj_header.endRefreshingCompletionBlock = {
-            if let tab = self as? UITableView {
-                tab.tableFooterView = self.mj_totalDataCount() == 0 ? self.wzEmptyView : nil
+        wrappedValue.mj_header = (header.refreshView as! MJRefreshHeader)
+        wrappedValue.mj_header?.endRefreshingCompletionBlock = {
+            if let tab = wrappedValue as? UITableView {
+                tab.tableFooterView = wrappedValue.mj_totalDataCount() == 0 ? wrappedValue.wzEmptyView : nil
             }
         }
-        self.wzObservation = self.observe(\.contentSize, options: .new) { scrollView, change in
-            scrollView.refreshFootState()
+        wrappedValue.wzObservation = wrappedValue.observe(\.contentSize, options: .new) { scrollView, change in
+            refreshFootState()
         }
     }
     
     /// 更新底部状态
-    private func refreshFootState() {
-        if (self.mj_footer != nil) && self.mj_footer.state == .idle {
-            
-            if  self.contentSize.height < self.bounds.height {
-                if self.mj_footer.isHidden == false {
-                    self.wz_bottomRefreshState(state: .hidden)
+    func refreshFootState() {
+        
+        if let foot = wrappedValue.mj_footer, foot.state == .idle {
+            if  wrappedValue.contentSize.height < wrappedValue.bounds.height {
+                if wrappedValue.mj_footer?.isHidden == false {
+                    bottomRefreshState(state: .hidden)
                 }
             }else {
-                if self.mj_footer.isHidden == true && self.mj_header.state == .idle {
-                    self.wz_bottomRefreshState(state: .normal)
+                if wrappedValue.mj_footer?.isHidden == true && wrappedValue.mj_header?.state == .idle {
+                    bottomRefreshState(state: .normal)
                 }
             }
         }
@@ -269,15 +269,14 @@ public class DefaultRefreshAutoFooter: Refresh {
 
 private struct AssociatedKeys {
     static var emptyViewKey: String = "com.wzly.refresh.emptyView"
-    
     static var observationKey: String = "com.wzly.refresh.observation"
 }
 
 // MAKR - 添加占位视图等刷新机制
- @objc public extension UIScrollView {
+public extension UIScrollView {
     
     /// 空视图占位
-    @objc var wzEmptyView: UIView? {
+    public var wzEmptyView: UIView? {
          get {
              return (objc_getAssociatedObject(self, &AssociatedKeys.emptyViewKey) as? UIView)
          }
@@ -287,7 +286,7 @@ private struct AssociatedKeys {
      }
      
      /// 监听属性
-    private var wzObservation: NSKeyValueObservation? {
+    public var wzObservation: NSKeyValueObservation? {
          get {
              return (objc_getAssociatedObject(self, &AssociatedKeys.observationKey) as? NSKeyValueObservation)
          }

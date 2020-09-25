@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'WZRefresh'
-  s.version          = '0.2.3'
+  s.version          = '1.0.0'
   s.summary          = 'A short description of WZRefresh. '
 
 # This description is used to generate tags and improve search results.
@@ -28,15 +28,12 @@ TODO: Add long description of the pod here.
   s.source           = { :git => 'https://github.com/WZLYiOS/WZRefresh.git', :tag => s.version.to_s }
   # s.social_media_url = 'https://twitter.com/<TWITTER_USERNAME>'
   
-  s.ios.deployment_target = '8.0'
+  s.static_framework = true
+  s.swift_version         = '5.0'
+  s.requires_arc = true
+  s.ios.deployment_target = '10.0'
   s.source_files = 'WZRefresh/Classes/*.swift'
   
-  
-  # s.resource_bundles = {
-  #   'WZRefresh' => ['WZRefresh/Assets/*.png']
-  # }
-
-  # s.public_header_files = 'Pod/Classes/**/*.h'
-  # s.frameworks = 'UIKit', 'MapKit'
-   s.dependency 'MJRefresh', '~> 3.1.12'
+   s.dependency 'MJRefresh', '~> 3.5.0'
+   s.dependency 'WZNamespaceWrappable', '~> 1.0.0'
 end
