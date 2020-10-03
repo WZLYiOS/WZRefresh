@@ -65,6 +65,7 @@ public class WZDefaultRefreshHeader: WZRefresh {
 
     public lazy var refreshView: MJRefreshComponent = {
         let temElement = MJRefreshNormalHeader()
+        temElement.isCollectionViewAnimationBug = true
         temElement.isAutomaticallyChangeAlpha = true
         return temElement
     }()
@@ -276,7 +277,7 @@ private struct AssociatedKeys {
 public extension UIScrollView {
     
     /// 空视图占位
-    public var wzEmptyView: UIView? {
+    var wzEmptyView: UIView? {
          get {
              return (objc_getAssociatedObject(self, &AssociatedKeys.emptyViewKey) as? UIView)
          }
@@ -286,7 +287,7 @@ public extension UIScrollView {
      }
      
      /// 监听属性
-    public var wzObservation: NSKeyValueObservation? {
+    var wzObservation: NSKeyValueObservation? {
          get {
              return (objc_getAssociatedObject(self, &AssociatedKeys.observationKey) as? NSKeyValueObservation)
          }
