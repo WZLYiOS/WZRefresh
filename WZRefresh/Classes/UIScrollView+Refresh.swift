@@ -178,16 +178,15 @@ public extension WZTypeWrapperProtocol where WrappedType: UIScrollView {
     /// - Parameter view: 空视图
     func addBackgroundEmpty(view: UIView) {
         wrappedValue.wzEmptyView = view
-        wrappedValue.wzObservation = wrappedValue.observe(\.contentSize, options: .new) { scrollView, change in
-            
-            refreshFootState()
+        wrappedValue.wzObservation = wrappedValue.observe(\.contentSize, options: .new) { [self] scrollView, change in
+            self.refreshFootState()
             if let tab = scrollView as? UITableView {
-                tab.backgroundView = wrappedValue.mj_totalDataCount() == 0 ? scrollView.wzEmptyView : nil
+                tab.backgroundView = self.wrappedValue.mj_totalDataCount() == 0 ? scrollView.wzEmptyView : nil
                 return
             }
             
             if let coll = scrollView as? UICollectionView {
-                coll.backgroundView = wrappedValue.mj_totalDataCount() == 0 ? scrollView.wzEmptyView : nil
+                coll.backgroundView = self.wrappedValue.mj_totalDataCount() == 0 ? scrollView.wzEmptyView : nil
                 return
             }
         }
@@ -198,12 +197,12 @@ public extension WZTypeWrapperProtocol where WrappedType: UIScrollView {
     func addFootEmpty(view: UIView){
         wrappedValue.wzEmptyView = view
         wrappedValue.mj_header?.endRefreshingCompletionBlock = {
-            if let tab = wrappedValue as? UITableView {
-                tab.tableFooterView = wrappedValue.mj_totalDataCount() == 0 ? wrappedValue.wzEmptyView : nil
+            if let tab = self.wrappedValue as? UITableView {
+                tab.tableFooterView = self.wrappedValue.mj_totalDataCount() == 0 ? self.wrappedValue.wzEmptyView : nil
             }
         }
         wrappedValue.wzObservation = wrappedValue.observe(\.contentSize, options: .new) { scrollView, change in
-            refreshFootState()
+            self.refreshFootState()
         }
     }
     
@@ -216,17 +215,17 @@ public extension WZTypeWrapperProtocol where WrappedType: UIScrollView {
         header.refreshingTarget(target, refreshingAction: action)
         wrappedValue.mj_header = (header.refreshView as! MJRefreshHeader)
       
-        wrappedValue.wzObservation = wrappedValue.observe(\.contentSize, options: .new) { scrollView, change in
-            
-            refreshFootState()
+        wrappedValue.wzObservation = wrappedValue.observe(\.contentSize, options: .new) { [self] scrollView, change in
+
+            self.refreshFootState()
             
             if let tab = scrollView as? UITableView {
-                tab.backgroundView = wrappedValue.mj_totalDataCount() == 0 ? scrollView.wzEmptyView : nil
+                tab.backgroundView = self.wrappedValue.mj_totalDataCount() == 0 ? scrollView.wzEmptyView : nil
                 return
             }
             
             if let coll = scrollView as? UICollectionView {
-                coll.backgroundView = wrappedValue.mj_totalDataCount() == 0 ? scrollView.wzEmptyView : nil
+                coll.backgroundView = self.wrappedValue.mj_totalDataCount() == 0 ? scrollView.wzEmptyView : nil
                 return
             }
         }
@@ -241,12 +240,12 @@ public extension WZTypeWrapperProtocol where WrappedType: UIScrollView {
         header.refreshingTarget(target, refreshingAction: action)
         wrappedValue.mj_header = (header.refreshView as! MJRefreshHeader)
         wrappedValue.mj_header?.endRefreshingCompletionBlock = {
-            if let tab = wrappedValue as? UITableView {
-                tab.tableFooterView = wrappedValue.mj_totalDataCount() == 0 ? wrappedValue.wzEmptyView : nil
+            if let tab = self.wrappedValue as? UITableView {
+                tab.tableFooterView = self.wrappedValue.mj_totalDataCount() == 0 ? self.wrappedValue.wzEmptyView : nil
             }
         }
         wrappedValue.wzObservation = wrappedValue.observe(\.contentSize, options: .new) { scrollView, change in
-            refreshFootState()
+            self.refreshFootState()
         }
     }
     
@@ -276,7 +275,7 @@ private struct AssociatedKeys {
 public extension UIScrollView {
     
     /// 空视图占位
-    public var wzEmptyView: UIView? {
+    var wzEmptyView: UIView? {
          get {
              return (objc_getAssociatedObject(self, &AssociatedKeys.emptyViewKey) as? UIView)
          }
@@ -286,7 +285,7 @@ public extension UIScrollView {
      }
      
      /// 监听属性
-    public var wzObservation: NSKeyValueObservation? {
+    var wzObservation: NSKeyValueObservation? {
          get {
              return (objc_getAssociatedObject(self, &AssociatedKeys.observationKey) as? NSKeyValueObservation)
          }
