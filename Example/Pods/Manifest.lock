@@ -4,7 +4,7 @@ PODS:
     - WZEmptyView/Source (= 1.1.8)
   - WZEmptyView/Source (1.1.8)
   - WZNamespaceWrappable (1.0.0)
-  - WZRefresh (1.0.0):
+  - WZRefresh (1.0.1):
     - MJRefresh (~> 3.5.0)
     - WZNamespaceWrappable (~> 1.0.0)
 
@@ -13,11 +13,11 @@ DEPENDENCIES:
   - WZRefresh (from `../`)
 
 SPEC REPOS:
-  https://cdn.cocoapods.org/:
-    - MJRefresh
   https://github.com/WZLYiOS/WZPodSpecs.git:
     - WZEmptyView
     - WZNamespaceWrappable
+  trunk:
+    - MJRefresh
 
 EXTERNAL SOURCES:
   WZRefresh:
@@ -27,8 +27,8 @@ SPEC CHECKSUMS:
   MJRefresh: 6afc955813966afb08305477dd7a0d9ad5e79a16
   WZEmptyView: 023d6c3b58528658f027cef6e6bc7828750c45f3
   WZNamespaceWrappable: 880bfa32c164bb80381ae65a49350c81521765d4
-  WZRefresh: acdd24c6929d6c88e8b5420f85e62a4fadae40b0
+  WZRefresh: 135e00efb419b50c01e23a5b635dc31be9a7e174
 
 PODFILE CHECKSUM: 3e4363d4951ca0b066c9908e204934d9322d2609
 
-COCOAPODS: 1.9.3
+COCOAPODS: 1.9.1

@@ -65,6 +65,7 @@ public class WZDefaultRefreshHeader: WZRefresh {
 
     public lazy var refreshView: MJRefreshComponent = {
         let temElement = MJRefreshNormalHeader()
+        temElement.isCollectionViewAnimationBug = true
         temElement.isAutomaticallyChangeAlpha = true
         return temElement
     }()
