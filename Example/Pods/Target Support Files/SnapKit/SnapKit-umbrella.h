@@ -11,6 +11,6 @@
 #endif
 
 
-FOUNDATION_EXPORT double WZNamespaceWrappableVersionNumber;
-FOUNDATION_EXPORT const unsigned char WZNamespaceWrappableVersionString[];
+FOUNDATION_EXPORT double SnapKitVersionNumber;
+FOUNDATION_EXPORT const unsigned char SnapKitVersionString[];
 

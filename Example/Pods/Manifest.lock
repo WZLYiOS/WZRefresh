@@ -1,34 +1,33 @@
 PODS:
-  - MJRefresh (3.5.0)
-  - WZEmptyView (1.1.8):
-    - WZEmptyView/Source (= 1.1.8)
-  - WZEmptyView/Source (1.1.8)
-  - WZNamespaceWrappable (1.0.0)
-  - WZRefresh (1.0.1):
-    - MJRefresh (~> 3.5.0)
-    - WZNamespaceWrappable (~> 1.0.0)
+  - MJRefresh (3.7.5)
+  - SnapKit (5.0.1)
+  - WZEmptyView (1.1.7):
+    - WZEmptyView/Source (= 1.1.7)
+  - WZEmptyView/Source (1.1.7)
+  - WZRefresh (2.1.0):
+    - MJRefresh (~> 3.7.5)
 
 DEPENDENCIES:
+  - SnapKit
   - WZEmptyView
   - WZRefresh (from `../`)
 
 SPEC REPOS:
-  https://github.com/WZLYiOS/WZPodSpecs.git:
-    - WZEmptyView
-    - WZNamespaceWrappable
   trunk:
     - MJRefresh
+    - SnapKit
+    - WZEmptyView
 
 EXTERNAL SOURCES:
   WZRefresh:
     :path: "../"
 
 SPEC CHECKSUMS:
-  MJRefresh: 6afc955813966afb08305477dd7a0d9ad5e79a16
-  WZEmptyView: 023d6c3b58528658f027cef6e6bc7828750c45f3
-  WZNamespaceWrappable: 880bfa32c164bb80381ae65a49350c81521765d4
-  WZRefresh: 135e00efb419b50c01e23a5b635dc31be9a7e174
+  MJRefresh: fdf5e979eb406a0341468932d1dfc8b7f9fce961
+  SnapKit: 97b92857e3df3a0c71833cce143274bf6ef8e5eb
+  WZEmptyView: d23081911bd26e08ee5ec5a958e075abfed5220d
+  WZRefresh: 59b76a40a601971293dc504eb98843c88a294761
 
-PODFILE CHECKSUM: 3e4363d4951ca0b066c9908e204934d9322d2609
+PODFILE CHECKSUM: c275cfa8b092a21ab6f40eb7638c71e4df96cbce
 
-COCOAPODS: 1.9.1
+COCOAPODS: 1.10.1

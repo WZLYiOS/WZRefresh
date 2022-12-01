@@ -1,6 +1,6 @@
 
 source 'https://cdn.cocoapods.org'
-source 'https://github.com/WZLYiOS/WZPodSpecs.git'
+source 'https://code.aliyun.com/wzlyios/WZLYPodSpecs.git'
 
 platform :ios,'10.0'
 use_frameworks!
@@ -9,6 +9,7 @@ target 'WZRefresh_Example' do
   pod 'WZRefresh', :path => '../'
 
   pod 'WZEmptyView'
+  pod 'SnapKit'
   target 'WZRefresh_Tests' do
     inherit! :search_paths
 
