@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'WZRefresh'
-  s.version          = '2.1.7'
+  s.version          = '2.1.8'
   s.summary          = 'A short description o f WZRefresh'
 
 # This description is used to generate tags and improve search results.

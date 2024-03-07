@@ -148,36 +148,12 @@ public class WZDefaultBackRefreshAutoFooter: MJRefreshBackNormalFooter {
 // MARK: - UIScrollView + 刷新的扩展
 public extension WZRefreshNamespaceWrappable where Base: UIScrollView {
     
-    
-    
     /// 开始刷新
     func beginRefreshing() {
         base.mj_header?.beginRefreshing()
     }
     
-    /// 停止刷新
-    func endRefreshing(_ error: Error? = nil) {
-        
-        /// 头部停止刷新
-        if let header = base.mj_header, header.isRefreshing == true {
-            header.endRefreshing()
-            
-            if let err = error {
-                base.emptyView?.uploadState(.error(err))
-            }else {
-                base.emptyView?.uploadState(.noData)
-            }
     
-            /// 重置底部
-            if base.mj_footer?.state == .noMoreData {
-                base.mj_footer?.resetNoMoreData()
-            }
-        }
-    
-        if let foot = base.mj_footer, foot.isRefreshing == true {
-            foot.endRefreshing()
-        }
-    }
      
     /// 移除顶部刷新控件
     func removeHeadRefreshing() {
@@ -217,10 +193,31 @@ public extension WZRefreshNamespaceWrappable where Base: UIScrollView {
         }
     }
     
-    /// 头部刷新
-    func headerEndRefreshing(_ error: Error? = nil) {
+    /// 底部停止刷新
+    func endFootRefreshing(_ count: Int) {
+        if count == 0 {
+            return bottomRefreshState(state: .noMoreData)
+        }
+        base.mj_footer?.endRefreshing()
+    }
+    
+    /// 头部刷新结束
+    func endHeaderRefreshing(_ error: Error? = nil) {
         /// 头部停止刷新
         base.mj_header?.endRefreshing()
+        if let err = error {
+            base.emptyView?.uploadState(.error(err))
+        }else {
+            base.emptyView?.uploadState(.noData)
+        }
+        
+        if let empty = base.emptyView?.originView(), empty.superview == nil {
+            let superView = base.superview
+            superView?.addSubview(empty)
+            empty.frame = base.bounds
+            empty.center = base.center
+        }
+    
         if let err = error {
             base.emptyView?.uploadState(.error(err))
         }else {
@@ -286,12 +283,7 @@ public extension WZRefreshNamespaceWrappable where Base: UIScrollView {
         base.wzObservation = base.observe(\.contentSize, options: .new) { [self] scrollView, change in
             self.refreshFootState()
             
-            if view.originView().superview == nil, let superView = scrollView.superview {
-                superView.addSubview(view.originView())
-            }
-            view.originView().frame = scrollView.bounds
-            view.originView().center = scrollView.center
-            if base.mj_header?.state == .idle && scrollView.contentSize.height == CGFloat(0) && self.base.mj_totalDataCount() == 0  {
+            if scrollView.contentSize.height == CGFloat(0) && self.base.mj_totalDataCount() == 0  {
                 view.originView().isHidden = false
             }else{
                 view.originView().isHidden = true
@@ -336,8 +328,9 @@ public extension WZRefreshNamespaceWrappable where Base: UIScrollView {
 public extension UIScrollView {
     
     private struct AssociatedKeys {
-        static var emptyViewKey = "com.wzly.refresh.emptyView"
-        static var observationKey = "com.wzly.refresh.observation"
+        static var emptyViewKey = 10
+        static var observationKey = 11
+        static var isCanShowEmptyKey = 12
     }
     
     /// 空视图占位
@@ -359,6 +352,16 @@ public extension UIScrollView {
              objc_setAssociatedObject(self, &AssociatedKeys.observationKey, newValue, objc_AssociationPolicy.OBJC_ASSOCIATION_RETAIN)
          }
      }
+    
+    /// 是否可以显示空视图，内部使用
+    var isCanShowEmpty: Bool{
+        get {
+            return objc_getAssociatedObject(self, &AssociatedKeys.isCanShowEmptyKey) as? Bool ?? false
+        }
+        set(newValue) {
+            objc_setAssociatedObject(self, &AssociatedKeys.isCanShowEmptyKey, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+        }
+    }
 }
 
 // MARL - 结果回调

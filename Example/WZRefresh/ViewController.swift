@@ -28,7 +28,7 @@ class ViewController: UIViewController {
         return $0
     }(UITableView())
     
-    fileprivate var dataArray: [Int] = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20] {
+    fileprivate var dataArray: [Int] = [] {
         didSet{
             tableView.reloadData()
         }
@@ -52,11 +52,12 @@ class ViewController: UIViewController {
         tableView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
         }
-        wzObservation = tableView.observe(\.contentSize, options: .new) { [self] scrollView, change in
-            var xxx = self.bgView.frame
-            xxx.size.height = scrollView.contentSize.height
-            self.bgView.frame = xxx
-        }
+//        wzObservation = tableView.observe(\.contentSize, options: .new) { [self] scrollView, change in
+//            var xxx = self.bgView.frame
+//            xxx.size.height = scrollView.contentSize.height
+//            self.bgView.frame = xxx
+//        }
+        loadMoreReFresh()
     }
 
     override func didReceiveMemoryWarning() {
@@ -70,10 +71,12 @@ class ViewController: UIViewController {
     
     @objc func loadMoreReFresh() {
         debugPrint("当前位置：\(tableView.mj_offsetY) 内容高度：\(tableView.mj_contentH) 距离：\(tableView.mj_contentH-tableView.mj_offsetY)")
-        DispatchQueue.global().asyncAfter(deadline: .now() ) {
+        let deadline = DispatchTime.now() + .seconds(3)
+        DispatchQueue.global().asyncAfter(deadline: deadline) {
             DispatchQueue.main.async {
-                self.dataArray.append(contentsOf: [1,2,3,4,5,6,7,8,8,8,8,6])
-                self.tableView.wz.endRefreshing()
+//                self.dataArray.append(contentsOf: [1,2,3,4,5,6,7,8,8,8,8,6])
+                self.tableView.reloadData()
+                self.tableView.wz.headerEndRefreshing()
             }
         }
     }

@@ -1,7 +1,7 @@
 {
   "name": "WZRefresh",
-  "version": "2.1.6",
-  "summary": "A short description of WZRefresh.",
+  "version": "2.1.7",
+  "summary": "A short description o f WZRefresh",
   "description": "TODO: Add long description of the pod here.",
   "homepage": "https://github.com/WZLYiOS/WZRefresh",
   "license": {
@@ -13,7 +13,7 @@
   },
   "source": {
     "git": "https://github.com/WZLYiOS/WZRefresh.git",
-    "tag": "2.1.6"
+    "tag": "2.1.7"
   },
   "static_framework": true,
   "swift_versions": "5.0",
