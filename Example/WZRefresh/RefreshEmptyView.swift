@@ -33,7 +33,7 @@ class RefreshEmptyView: UIView, WZEmptyViewProtocol {
         
     }
     
-    func uploadState(_ error: EmptyViewResultType) {
+    func uploadState(_ result: EmptyViewResultType) {
         debugPrint("23131")
     }
     

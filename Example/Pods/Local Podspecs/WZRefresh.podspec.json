@@ -1,9 +1,9 @@
 {
   "name": "WZRefresh",
-  "version": "2.1.0",
+  "version": "2.1.6",
   "summary": "A short description of WZRefresh.",
   "description": "TODO: Add long description of the pod here.",
-  "homepage": "https://code.aliyun.com/wzlyios/WZRefresh",
+  "homepage": "https://github.com/WZLYiOS/WZRefresh",
   "license": {
     "type": "MIT",
     "file": "LICENSE"
@@ -12,8 +12,8 @@
     "qiuqixiang": "739140860@qq.com"
   },
   "source": {
-    "git": "https://code.aliyun.com/wzlyios/WZRefresh.git",
-    "tag": "2.1.0"
+    "git": "https://github.com/WZLYiOS/WZRefresh.git",
+    "tag": "2.1.6"
   },
   "static_framework": true,
   "swift_versions": "5.0",
@@ -24,7 +24,7 @@
   "source_files": "WZRefresh/Classes/*.swift",
   "dependencies": {
     "MJRefresh": [
-      "~> 3.7.5"
+      "~> 3.7.6"
     ]
   },
   "swift_version": "5.0"
