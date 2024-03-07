@@ -326,31 +326,33 @@ public extension WZRefreshNamespaceWrappable where Base: UIScrollView {
     }
 }
 
-private struct AssociatedKeys {
-    static var emptyViewKey: String = "com.wzly.refresh.emptyView"
-    static var observationKey: String = "com.wzly.refresh.observation"
-}
+
 
 // MAKR - 添加占位视图等刷新机制
 public extension UIScrollView {
     
+    private struct AssociatedKeys {
+        static var emptyViewKey = "com.wzly.refresh.emptyView"
+        static var observationKey = "com.wzly.refresh.observation"
+    }
+    
     /// 空视图占位
     var emptyView: WZEmptyViewProtocol? {
          get {
-             return (objc_getAssociatedObject(self, AssociatedKeys.emptyViewKey) as? WZEmptyViewProtocol)
+             return (objc_getAssociatedObject(self, &AssociatedKeys.emptyViewKey) as? WZEmptyViewProtocol)
          }
          set(newValue) {
-             objc_setAssociatedObject(self, AssociatedKeys.emptyViewKey, newValue, objc_AssociationPolicy.OBJC_ASSOCIATION_RETAIN)
+             objc_setAssociatedObject(self, &AssociatedKeys.emptyViewKey, newValue, objc_AssociationPolicy.OBJC_ASSOCIATION_RETAIN)
          }
      }
      
      /// 监听属性
     var wzObservation: NSKeyValueObservation? {
          get {
-             return (objc_getAssociatedObject(self, AssociatedKeys.observationKey) as? NSKeyValueObservation)
+             return (objc_getAssociatedObject(self, &AssociatedKeys.observationKey) as? NSKeyValueObservation)
          }
          set(newValue) {
-             objc_setAssociatedObject(self, AssociatedKeys.observationKey, newValue, objc_AssociationPolicy.OBJC_ASSOCIATION_RETAIN)
+             objc_setAssociatedObject(self, &AssociatedKeys.observationKey, newValue, objc_AssociationPolicy.OBJC_ASSOCIATION_RETAIN)
          }
      }
 }
@@ -365,7 +367,7 @@ public enum EmptyViewResultType {
 public protocol WZEmptyViewProtocol {
     
     /// 更新状态
-    func uploadState(_ error: EmptyViewResultType)
+    func uploadState(_ result: EmptyViewResultType)
     
     /// 视图
     func originView() -> UIView
