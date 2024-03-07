@@ -24,6 +24,7 @@ class ViewController: UIViewController {
         $0.register(WZTableViewCell.self, forCellReuseIdentifier: "WZTableViewCell")
         $0.wz.pullToRefresh(target: self, refreshingAction: #selector(pullToRefresh))
         $0.wz.loadMoreFooter(target: self, refreshingAction: #selector(loadMoreReFresh))
+        $0.wz.addBackgroundEmpty(view: RefreshEmptyView())
         return $0
     }(UITableView())
     

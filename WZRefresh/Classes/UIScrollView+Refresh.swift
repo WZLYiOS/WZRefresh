@@ -148,6 +148,8 @@ public class WZDefaultBackRefreshAutoFooter: MJRefreshBackNormalFooter {
 // MARK: - UIScrollView + 刷新的扩展
 public extension WZRefreshNamespaceWrappable where Base: UIScrollView {
     
+    
+    
     /// 开始刷新
     func beginRefreshing() {
         base.mj_header?.beginRefreshing()
@@ -159,8 +161,13 @@ public extension WZRefreshNamespaceWrappable where Base: UIScrollView {
         /// 头部停止刷新
         if let header = base.mj_header, header.isRefreshing == true {
             header.endRefreshing()
-            base.emptyView?.uploadState(error: error)
             
+            if let err = error {
+                base.emptyView?.uploadState(.error(err))
+            }else {
+                base.emptyView?.uploadState(.noData)
+            }
+    
             /// 重置底部
             if base.mj_footer?.state == .noMoreData {
                 base.mj_footer?.resetNoMoreData()
@@ -214,7 +221,11 @@ public extension WZRefreshNamespaceWrappable where Base: UIScrollView {
     func headerEndRefreshing(_ error: Error? = nil) {
         /// 头部停止刷新
         base.mj_header?.endRefreshing()
-        base.emptyView?.uploadState(error: error)
+        if let err = error {
+            base.emptyView?.uploadState(.error(err))
+        }else {
+            base.emptyView?.uploadState(.noData)
+        }
         
         /// 重置底部
         resetNoMoreData()
@@ -274,15 +285,13 @@ public extension WZRefreshNamespaceWrappable where Base: UIScrollView {
         base.emptyView = view
         base.wzObservation = base.observe(\.contentSize, options: .new) { [self] scrollView, change in
             self.refreshFootState()
-            if let tab = scrollView as? UITableView {
-                tab.backgroundView = self.base.mj_totalDataCount() == 0 ? scrollView.emptyView?.originView() : nil
-                return
-            }
             
-            if let coll = scrollView as? UICollectionView {
-                coll.backgroundView = self.base.mj_totalDataCount() == 0 ? scrollView.emptyView?.originView() : nil
-                return
+            if view.originView().superview == nil, let superView = scrollView.superview {
+                superView.addSubview(view.originView())
             }
+            view.originView().frame = scrollView.bounds
+            view.originView().center = scrollView.center
+            view.originView().isHidden = scrollView.contentSize.height > CGFloat(0) ? true:false
         }
     }
     
@@ -296,49 +305,6 @@ public extension WZRefreshNamespaceWrappable where Base: UIScrollView {
             }
         }
         base.wzObservation = base.observe(\.contentSize, options: .new) { scrollView, change in
-            self.refreshFootState()
-        }
-    }
-    
-    /// 下拉刷新 针对tableview 和 collectionview  背景view自动添加空视图 将要废弃
-    /// - Parameter header: 头部刷新
-    /// - Parameter handler: handler description
-    func refreshHeaderBackgroundView(target: Any, refreshingAction action: Selector) {
-        
-        let header = WZDefaultRefreshHeader()
-        header.refreshingTarget(target, refreshingAction: action)
-        base.mj_header = (header.refreshView as! MJRefreshHeader)
-      
-        base.wzObservation = base.observe(\.contentSize, options: .new) { [self] scrollView, change in
-
-            self.refreshFootState()
-            
-            if let tab = scrollView as? UITableView {
-                tab.backgroundView = self.base.mj_totalDataCount() == 0 ? scrollView.emptyView?.originView() : nil
-                return
-            }
-            
-            if let coll = scrollView as? UICollectionView {
-                coll.backgroundView = self.base.mj_totalDataCount() == 0 ? scrollView.emptyView?.originView() : nil
-                return
-            }
-        }
-    }
-    
-    /// 下拉刷新 针对tableview 和 collectionview  FootView自动添加空视图
-    /// - Parameter header: 头部刷新
-    /// - Parameter handler: handler description
-     func refreshHeaderTableFooterView(target: Any, refreshingAction action: Selector) {
-    
-        let header = WZDefaultRefreshHeader()
-        header.refreshingTarget(target, refreshingAction: action)
-         base.mj_header = (header.refreshView as! MJRefreshHeader)
-         base.mj_header?.endRefreshingCompletionBlock = {
-            if let tab = self.base as? UITableView {
-                tab.tableFooterView = self.base.mj_totalDataCount() == 0 ? self.base.emptyView?.originView() : nil
-            }
-        }
-         base.wzObservation = base.observe(\.contentSize, options: .new) { scrollView, change in
             self.refreshFootState()
         }
     }
@@ -371,29 +337,35 @@ public extension UIScrollView {
     /// 空视图占位
     var emptyView: WZEmptyViewProtocol? {
          get {
-             return (objc_getAssociatedObject(self, &AssociatedKeys.emptyViewKey) as? WZEmptyViewProtocol)
+             return (objc_getAssociatedObject(self, AssociatedKeys.emptyViewKey) as? WZEmptyViewProtocol)
          }
          set(newValue) {
-             objc_setAssociatedObject(self, &AssociatedKeys.emptyViewKey, newValue, objc_AssociationPolicy.OBJC_ASSOCIATION_RETAIN)
+             objc_setAssociatedObject(self, AssociatedKeys.emptyViewKey, newValue, objc_AssociationPolicy.OBJC_ASSOCIATION_RETAIN)
          }
      }
      
      /// 监听属性
     var wzObservation: NSKeyValueObservation? {
          get {
-             return (objc_getAssociatedObject(self, &AssociatedKeys.observationKey) as? NSKeyValueObservation)
+             return (objc_getAssociatedObject(self, AssociatedKeys.observationKey) as? NSKeyValueObservation)
          }
          set(newValue) {
-             objc_setAssociatedObject(self, &AssociatedKeys.observationKey, newValue, objc_AssociationPolicy.OBJC_ASSOCIATION_RETAIN)
+             objc_setAssociatedObject(self, AssociatedKeys.observationKey, newValue, objc_AssociationPolicy.OBJC_ASSOCIATION_RETAIN)
          }
      }
+}
+
+// MARL - 结果回调
+public enum EmptyViewResultType {
+    case error(Error)
+    case noData
 }
 
 // MARK - 空视图协议
 public protocol WZEmptyViewProtocol {
     
     /// 更新状态
-    func uploadState(error: Error?)
+    func uploadState(_ error: EmptyViewResultType)
     
     /// 视图
     func originView() -> UIView

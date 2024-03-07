@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		281864B82B439EF50051B8F1 /* Test.m in Sources */ = {isa = PBXBuildFile; fileRef = 281864B72B439EF50051B8F1 /* Test.m */; };
+		28D079102B99926B006ECDA5 /* RefreshEmptyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28D0790F2B99926B006ECDA5 /* RefreshEmptyView.swift */; };
 		32892CD40731EB99375E5B4C /* Pods_WZRefresh_Example.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0CCB00CFF8B29282CCDB6297 /* Pods_WZRefresh_Example.framework */; };
 		3F90EA88C8ADC61BB91A840C /* Pods_WZRefresh_Tests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C5146A5331CD9159E12EFC2B /* Pods_WZRefresh_Tests.framework */; };
 		607FACD61AFB9204008FA782 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607FACD51AFB9204008FA782 /* AppDelegate.swift */; };
@@ -31,6 +33,10 @@
 		0CCB00CFF8B29282CCDB6297 /* Pods_WZRefresh_Example.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_WZRefresh_Example.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		25DDEBB746BEFD8AA3705445 /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = LICENSE; path = ../LICENSE; sourceTree = "<group>"; };
 		27E3C065792214760516BED6 /* Pods-WZRefresh_Example.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WZRefresh_Example.debug.xcconfig"; path = "Target Support Files/Pods-WZRefresh_Example/Pods-WZRefresh_Example.debug.xcconfig"; sourceTree = "<group>"; };
+		281864B52B439EF50051B8F1 /* WZRefresh_Example-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "WZRefresh_Example-Bridging-Header.h"; sourceTree = "<group>"; };
+		281864B62B439EF50051B8F1 /* Test.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Test.h; sourceTree = "<group>"; };
+		281864B72B439EF50051B8F1 /* Test.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Test.m; sourceTree = "<group>"; };
+		28D0790F2B99926B006ECDA5 /* RefreshEmptyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RefreshEmptyView.swift; sourceTree = "<group>"; };
 		49D5E9D1AD2BCA4E7DD7A6D8 /* Pods-WZRefresh_Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WZRefresh_Tests.release.xcconfig"; path = "Target Support Files/Pods-WZRefresh_Tests/Pods-WZRefresh_Tests.release.xcconfig"; sourceTree = "<group>"; };
 		607FACD01AFB9204008FA782 /* WZRefresh_Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WZRefresh_Example.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		607FACD41AFB9204008FA782 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -95,10 +101,14 @@
 			children = (
 				607FACD51AFB9204008FA782 /* AppDelegate.swift */,
 				607FACD71AFB9204008FA782 /* ViewController.swift */,
+				28D0790F2B99926B006ECDA5 /* RefreshEmptyView.swift */,
+				281864B62B439EF50051B8F1 /* Test.h */,
+				281864B72B439EF50051B8F1 /* Test.m */,
 				607FACD91AFB9204008FA782 /* Main.storyboard */,
 				607FACDC1AFB9204008FA782 /* Images.xcassets */,
 				607FACDE1AFB9204008FA782 /* LaunchScreen.xib */,
 				607FACD31AFB9204008FA782 /* Supporting Files */,
+				281864B52B439EF50051B8F1 /* WZRefresh_Example-Bridging-Header.h */,
 			);
 			name = "Example for WZRefresh";
 			path = WZRefresh;
@@ -213,7 +223,7 @@
 					607FACCF1AFB9204008FA782 = {
 						CreatedOnToolsVersion = 6.3.1;
 						DevelopmentTeam = 74MC74A426;
-						LastSwiftMigration = 0900;
+						LastSwiftMigration = 1510;
 					};
 					607FACE41AFB9204008FA782 = {
 						CreatedOnToolsVersion = 6.3.1;
@@ -335,7 +345,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				281864B82B439EF50051B8F1 /* Test.m in Sources */,
 				607FACD81AFB9204008FA782 /* ViewController.swift in Sources */,
+				28D079102B99926B006ECDA5 /* RefreshEmptyView.swift in Sources */,
 				607FACD61AFB9204008FA782 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -482,6 +494,7 @@
 			baseConfigurationReference = 27E3C065792214760516BED6 /* Pods-WZRefresh_Example.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				DEVELOPMENT_TEAM = 74MC74A426;
 				INFOPLIST_FILE = WZRefresh/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
@@ -489,6 +502,8 @@
 				MODULE_NAME = ExampleApp;
 				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.demo.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "WZRefresh/WZRefresh_Example-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
 				SWIFT_VERSION = 4.0;
 			};
@@ -499,6 +514,7 @@
 			baseConfigurationReference = 97420F5D293C97A3342C9E3B /* Pods-WZRefresh_Example.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				DEVELOPMENT_TEAM = 74MC74A426;
 				INFOPLIST_FILE = WZRefresh/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
@@ -506,6 +522,7 @@
 				MODULE_NAME = ExampleApp;
 				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.demo.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "WZRefresh/WZRefresh_Example-Bridging-Header.h";
 				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
 				SWIFT_VERSION = 4.0;
 			};
