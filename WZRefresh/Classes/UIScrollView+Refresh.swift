@@ -291,7 +291,11 @@ public extension WZRefreshNamespaceWrappable where Base: UIScrollView {
             }
             view.originView().frame = scrollView.bounds
             view.originView().center = scrollView.center
-            view.originView().isHidden = scrollView.contentSize.height > CGFloat(0) ? true:false
+            if base.mj_header?.state == .idle && scrollView.contentSize.height == CGFloat(0) && self.base.mj_totalDataCount() == 0  {
+                view.originView().isHidden = false
+            }else{
+                view.originView().isHidden = true
+            }
         }
     }
     
