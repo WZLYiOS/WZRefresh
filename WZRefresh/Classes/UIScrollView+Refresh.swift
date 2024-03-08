@@ -153,8 +153,6 @@ public extension WZRefreshNamespaceWrappable where Base: UIScrollView {
         base.mj_header?.beginRefreshing()
     }
     
-    
-     
     /// 移除顶部刷新控件
     func removeHeadRefreshing() {
         base.mj_header = nil
@@ -194,7 +192,7 @@ public extension WZRefreshNamespaceWrappable where Base: UIScrollView {
     }
     
     /// 底部停止刷新
-    func endFootRefreshing(_ count: Int) {
+    func footEndRefreshing(_ count: Int = Int.max) {
         if count == 0 {
             return bottomRefreshState(state: .noMoreData)
         }
@@ -202,7 +200,7 @@ public extension WZRefreshNamespaceWrappable where Base: UIScrollView {
     }
     
     /// 头部刷新结束
-    func endHeaderRefreshing(_ error: Error? = nil) {
+    func headerEndRefreshing(_ error: Error? = nil) {
         /// 头部停止刷新
         base.mj_header?.endRefreshing()
         if let err = error {
