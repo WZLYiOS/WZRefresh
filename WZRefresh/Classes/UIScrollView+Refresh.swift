@@ -151,12 +151,27 @@ public extension WZRefreshNamespaceWrappable where Base: UIScrollView {
     /// 开始刷新
     func beginRefreshing() {
         base.mj_header?.beginRefreshing()
+        base.emptyView?.originView().isHidden = true
     }
     
     /// 移除顶部刷新控件
     func removeHeadRefreshing() {
         base.mj_header = nil
     }
+    
+    /// 停止刷新
+    func endRefreshing(_ error: Error? = nil) {
+        
+        /// 头部停止刷新
+        if let header = base.mj_header, header.isRefreshing == true {
+            headerEndRefreshing(error)
+        }
+    
+        if let foot = base.mj_footer, foot.isRefreshing == true {
+            footEndRefreshing(Int.max)
+        }
+    }
+    
     
     /// 刷新顶部视图状态
     /// - Parameter state: 顶部视图状态

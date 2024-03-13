@@ -1,5 +1,4 @@
 import XCTest
-import WZRefresh
 
 class Tests: XCTestCase {
     

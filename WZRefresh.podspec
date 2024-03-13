@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'WZRefresh'
-  s.version          = '2.1.9'
+  s.version          = '2.2.0'
   s.summary          = 'A short description o  f WZRefresh'
 
 # This description is used to generate tags and improve search results.
@@ -31,7 +31,7 @@ TODO: Add long description of the pod here.
   s.static_framework = true
   s.swift_version         = '5.0'
   s.requires_arc = true
-  s.ios.deployment_target = '10.0'
+  s.ios.deployment_target = '13.0'
   s.source_files = 'WZRefresh/Classes/*.swift'
   s.dependency 'MJRefresh', '~> 3.7.6'
 end

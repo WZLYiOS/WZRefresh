@@ -18,7 +18,7 @@ class ViewController: UIViewController {
         $0.rowHeight = UITableViewAutomaticDimension
         $0.estimatedRowHeight = 80
         $0.backgroundColor = UIColor.clear
-        $0.tableFooterView = UIView()
+//        $0.tableFooterView = UIView()
         $0.dataSource = self
         $0.delegate = self
         $0.register(WZTableViewCell.self, forCellReuseIdentifier: "WZTableViewCell")
@@ -28,7 +28,7 @@ class ViewController: UIViewController {
         return $0
     }(UITableView())
     
-    fileprivate var dataArray: [Int] = [] {
+    fileprivate var dataArray: [Int] = [1,2,3,4,5,6,7,8,8,8,8,6,1,1,1,34,343,4,43,43] {
         didSet{
             tableView.reloadData()
         }
@@ -57,7 +57,7 @@ class ViewController: UIViewController {
 //            xxx.size.height = scrollView.contentSize.height
 //            self.bgView.frame = xxx
 //        }
-        loadMoreReFresh()
+        tableView.wz.beginRefreshing()
     }
 
     override func didReceiveMemoryWarning() {
@@ -66,7 +66,7 @@ class ViewController: UIViewController {
     }
 
     @objc func pullToRefresh(){
-        tableView.wz.endRefreshing()
+        tableView.wz.headerEndRefreshing()
     }
     
     @objc func loadMoreReFresh() {
@@ -76,7 +76,7 @@ class ViewController: UIViewController {
             DispatchQueue.main.async {
 //                self.dataArray.append(contentsOf: [1,2,3,4,5,6,7,8,8,8,8,6])
                 self.tableView.reloadData()
-                self.tableView.wz.headerEndRefreshing()
+                self.tableView.wz.footEndRefreshing(0)
             }
         }
     }

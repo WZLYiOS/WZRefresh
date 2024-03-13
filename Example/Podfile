@@ -2,7 +2,7 @@
 source 'https://cdn.cocoapods.org'
 source 'https://code.aliyun.com/wzlyios/WZLYPodSpecs.git'
 
-platform :ios,'10.0'
+platform :ios,'13.0'
 use_frameworks!
 
 target 'WZRefresh_Example' do
