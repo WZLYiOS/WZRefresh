@@ -230,13 +230,7 @@ public extension WZRefreshNamespaceWrappable where Base: UIScrollView {
             empty.frame = base.bounds
             empty.center = base.center
         }
-    
-        if let err = error {
-            base.emptyView?.uploadState(.error(err))
-        }else {
-            base.emptyView?.uploadState(.noData)
-        }
-        
+
         /// 重置底部
         resetNoMoreData()
     }
@@ -296,7 +290,7 @@ public extension WZRefreshNamespaceWrappable where Base: UIScrollView {
         base.wzObservation = base.observe(\.contentSize, options: .new) { [self] scrollView, change in
             self.refreshFootState()
             
-            if scrollView.contentSize.height == CGFloat(0) && self.base.mj_totalDataCount() == 0  {
+            if self.base.mj_totalDataCount() == 0 && scrollView.mj_header?.state == .idle  {
                 view.originView().isHidden = false
             }else{
                 view.originView().isHidden = true
