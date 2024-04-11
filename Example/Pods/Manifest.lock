@@ -4,7 +4,7 @@ PODS:
   - WZEmptyView (1.1.7):
     - WZEmptyView/Source (= 1.1.7)
   - WZEmptyView/Source (1.1.7)
-  - WZRefresh (2.1.9):
+  - WZRefresh (2.2.1):
     - MJRefresh (~> 3.7.6)
 
 DEPENDENCIES:
@@ -26,8 +26,8 @@ SPEC CHECKSUMS:
   MJRefresh: 2fe7fb43a5167ceda20bb7e63f130c04fd1814a5
   SnapKit: 97b92857e3df3a0c71833cce143274bf6ef8e5eb
   WZEmptyView: d23081911bd26e08ee5ec5a958e075abfed5220d
-  WZRefresh: 1536a383a5984eff5a175f08bbe9be9dfd2ddc8b
+  WZRefresh: 5ac7d45520e0d3f0ebd1d2d51a557e3c11c6e34e
 
 PODFILE CHECKSUM: 188484efd0da12f2bbbcd4e3c8a255b4b909b44d
 
-COCOAPODS: 1.12.1
+COCOAPODS: 1.15.2
