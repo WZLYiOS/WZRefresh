@@ -290,10 +290,14 @@ public extension WZRefreshNamespaceWrappable where Base: UIScrollView {
         base.wzObservation = base.observe(\.contentSize, options: .new) { [self] scrollView, change in
             self.refreshFootState()
             
-            if self.base.mj_totalDataCount() == 0 && scrollView.mj_header?.state == .idle  {
-                view.originView().isHidden = false
-            }else{
-                view.originView().isHidden = true
+            if let tab = scrollView as? UITableView {
+                tab.backgroundView = self.base.mj_totalDataCount() == 0 ? scrollView.emptyView?.originView() : nil
+                return
+            }
+            
+            if let coll = scrollView as? UICollectionView {
+                coll.backgroundView = self.base.mj_totalDataCount() == 0 ? scrollView.emptyView?.originView() : nil
+                return
             }
         }
     }
