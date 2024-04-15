@@ -9,7 +9,7 @@
 Pod::Spec.new do |s|
   s.name             = 'WZRefresh'
   s.version          = '2.2.2'
-  s.summary          = 'A short description of WZRefres h'
+  s.summary          = 'A short description of WZRefres'
 
 # This description is used to generate tags and improve search results.
 #   * Think: What does it do? Why did you write it? What is the focus?
