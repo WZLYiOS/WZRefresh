@@ -151,7 +151,6 @@ public extension WZRefreshNamespaceWrappable where Base: UIScrollView {
     /// 开始刷新
     func beginRefreshing() {
         base.mj_header?.beginRefreshing()
-        base.emptyView?.originView().isHidden = true
     }
     
     /// 移除顶部刷新控件
