@@ -299,6 +299,12 @@ public extension WZRefreshNamespaceWrappable where Base: UIScrollView {
                 return
             }
         }
+        base.contentOffsetObservation = base.observe(\.contentOffset, options: .new) { [self] scrollView, change in
+            if var feam = base.emptyView?.originView().frame, scrollView.contentOffset.y <= 0 {
+                feam.origin.y = scrollView.contentOffset.y
+                base.emptyView?.originView().frame = feam
+            }
+        }
     }
     
     /// footView 添加占位图
@@ -340,7 +346,7 @@ public extension UIScrollView {
     private struct AssociatedKeys {
         static var emptyViewKey = 10
         static var observationKey = 11
-        static var isCanShowEmptyKey = 12
+        static var contentOffsetKey = 12
     }
     
     /// 空视图占位
@@ -363,13 +369,13 @@ public extension UIScrollView {
          }
      }
     
-    /// 是否可以显示空视图，内部使用
-    var isCanShowEmpty: Bool{
+    /// 监听属性
+   var contentOffsetObservation: NSKeyValueObservation? {
         get {
-            return objc_getAssociatedObject(self, &AssociatedKeys.isCanShowEmptyKey) as? Bool ?? false
+            return (objc_getAssociatedObject(self, &AssociatedKeys.contentOffsetKey) as? NSKeyValueObservation)
         }
         set(newValue) {
-            objc_setAssociatedObject(self, &AssociatedKeys.isCanShowEmptyKey, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+            objc_setAssociatedObject(self, &AssociatedKeys.contentOffsetKey, newValue, objc_AssociationPolicy.OBJC_ASSOCIATION_RETAIN)
         }
     }
 }
