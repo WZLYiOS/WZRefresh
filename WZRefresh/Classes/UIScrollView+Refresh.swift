@@ -222,14 +222,6 @@ public extension WZRefreshNamespaceWrappable where Base: UIScrollView {
         }else {
             base.emptyView?.uploadState(.noData)
         }
-        
-        if let empty = base.emptyView?.originView(), empty.superview == nil {
-            let superView = base.superview
-            superView?.addSubview(empty)
-            empty.frame = base.bounds
-            empty.center = base.center
-        }
-
         /// 重置底部
         resetNoMoreData()
     }
@@ -289,13 +281,16 @@ public extension WZRefreshNamespaceWrappable where Base: UIScrollView {
         base.wzObservation = base.observe(\.contentSize, options: .new) { [self] scrollView, change in
             self.refreshFootState()
             
+            let isShow = self.base.mj_totalDataCount() == 0 && scrollView.mj_header?.state == .idle ? true:false
+            
             if let tab = scrollView as? UITableView {
-                tab.backgroundView = self.base.mj_totalDataCount() == 0 ? scrollView.emptyView?.originView() : nil
+                tab.backgroundView = isShow ? scrollView.emptyView?.originView() : nil
                 return
             }
             
             if let coll = scrollView as? UICollectionView {
-                coll.backgroundView = self.base.mj_totalDataCount() == 0 ? scrollView.emptyView?.originView() : nil
+                let num = self.base.mj_totalDataCount()
+                coll.backgroundView = isShow ? scrollView.emptyView?.originView() : nil
                 return
             }
         }
